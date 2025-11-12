@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 # Simple test to confirm everything works end-to-end.
-SEARCH_URL = "https://example.com"
+SEARCH_URL = "https://httpbin.org/html"
 
 def main():
     print(f"Requesting {SEARCH_URL} ...")
