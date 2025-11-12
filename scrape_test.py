@@ -2,30 +2,19 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-# TEMP TEST:
-# This is just to prove your environment works.
-# We'll swap this for a real directory/search next.
-SEARCH_URL = "https://example.com"
+# Simple connectivity + parsing test
+TEST_URL = "https://httpbin.org/html"
 
 def main():
-    resp = requests.get(SEARCH_URL, timeout=10)
+    resp = requests.get(TEST_URL, timeout=10)
     resp.raise_for_status()
 
     soup = BeautifulSoup(resp.text, "html.parser")
+    heading = soup.find("h1").get_text(strip=True)
 
-    # Grab all <h1> and <p> just as a dumb demo
-    headings = [h.get_text(strip=True) for h in soup.find_all("h1")]
-    paragraphs = [p.get_text(strip=True) for p in soup.find_all("p")]
-
-    data = []
-    for h in headings:
-        data.append({"type": "heading", "text": h})
-    for p in paragraphs:
-        data.append({"type": "paragraph", "text": p})
-
-    df = pd.DataFrame(data)
+    df = pd.DataFrame([{"type": "heading", "text": heading}])
     df.to_csv("test_output.csv", index=False)
-    print(f"Saved {len(df)} rows to test_output.csv")
+    print("Saved test_output.csv with", len(df), "row")
 
 if __name__ == "__main__":
     main()
